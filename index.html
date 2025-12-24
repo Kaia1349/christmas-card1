@@ -6,149 +6,149 @@
 <title>Merry Christmas 🎄</title>
 
 <style>
-  :root{
-    --bg1:#0b3d2e;
-    --bg2:#145a32;
-    --card:rgba(255,255,255,.12);
-    --gold:#ffd54a;
-  }
-
   body{
     margin:0;
     min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
-    background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+    background: radial-gradient(circle at top, #1b5e20, #0b3d2e);
     font-family: Georgia, "Times New Roman", serif;
     color:#fff;
-    overflow:hidden;
   }
 
   .card{
-    width:min(420px, 90vw);
-    padding:34px 26px 28px;
+    width:min(460px, 92vw);
+    padding:32px 24px 26px;
     border-radius:26px;
-    background: var(--card);
-    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,.12);
     box-shadow: 0 18px 60px rgba(0,0,0,.35);
     text-align:center;
-    position:relative;
   }
 
   h1{
-    margin: 0 0 10px;
-    color: var(--gold);
-    font-size: 40px;
+    margin:0 0 10px;
+    color:#ffd54a;
+    font-size:40px;
     letter-spacing:.5px;
   }
 
-  .tree-wrap{
-    display:flex;
-    justify-content:center;
-    margin: 12px 0 8px;
+  /* tree always centered */
+  .tree{
+    display:block;
+    margin: 10px auto 6px;
+    width: 240px;
+    max-width: 70vw;
+    height: auto;
   }
 
   .msg{
-    margin: 14px auto 0;
-    font-size: 20px;
-    line-height: 1.35;
-    max-width: 30ch;
-    opacity: 0;
+    margin:14px auto 0;
+    font-size:20px;
+    line-height:1.35;
+    max-width:32ch;
+    opacity:0;
     transform: translateY(8px);
-    transition: opacity 1.4s ease, transform 1.4s ease;
-    min-height: 56px;
+    transition: opacity 1.2s ease, transform 1.2s ease;
+    min-height:56px;
   }
-  .msg.show{
-    opacity: 1;
-    transform: translateY(0);
+  .msg.show{ opacity:1; transform:translateY(0); }
+
+  .controls{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-top:14px;
+    flex-wrap:wrap;
   }
 
-  .hint{
-    margin-top:10px;
-    font-size: 12px;
-    opacity:.75;
+  button{
+    border:none;
+    border-radius:999px;
+    padding:10px 14px;
+    font-size:14px;
+    cursor:pointer;
   }
-
-  /* subtle sparkle dots */
-  .sparkle{
-    position:absolute;
-    inset:-40px;
-    pointer-events:none;
-    background:
-      radial-gradient(circle at 10% 25%, rgba(255,255,255,.35) 0 2px, transparent 3px),
-      radial-gradient(circle at 80% 20%, rgba(255,255,255,.25) 0 2px, transparent 3px),
-      radial-gradient(circle at 30% 75%, rgba(255,255,255,.22) 0 2px, transparent 3px),
-      radial-gradient(circle at 70% 70%, rgba(255,255,255,.18) 0 2px, transparent 3px);
-    filter: blur(.2px);
-    opacity:.7;
-  }
-
-  /* SVG star glow */
-  .glow{
-    filter: drop-shadow(0 0 10px rgba(255,213,74,.9));
-  }
+  .play{ background:#e74c3c; color:#fff; }
+  .stop{ background:#2c3e50; color:#fff; }
+  .tip{ font-size:12px; opacity:.75; margin-top:10px; }
 </style>
 </head>
 
-<body onclick="playMusic()">
+<body>
   <div class="card">
-    <div class="sparkle"></div>
-
     <h1>Merry Christmas</h1>
 
-    <div class="tree-wrap">
-      <!-- Elegant SVG tree (stable centering) -->
-      <svg width="220" height="240" viewBox="0 0 220 240" aria-label="Christmas Tree">
-        <!-- star -->
-        <g class="glow">
-          <polygon fill="#FFD54A"
-            points="110,18 117,36 136,36 120,47 127,66 110,55 93,66 100,47 84,36 103,36"/>
-        </g>
+    <!-- Elegant SVG tree (no misalignment) -->
+    <svg class="tree" viewBox="0 0 220 240" aria-label="Christmas Tree">
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2.8" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
 
-        <!-- tree layers -->
-        <g>
-          <polygon fill="#35C86B" points="110,55 35,125 185,125"/>
-          <polygon fill="#2FBF62" points="110,90 25,175 195,175"/>
-          <polygon fill="#2AB85C" points="110,125 15,215 205,215"/>
-        </g>
+      <g filter="url(#glow)">
+        <polygon fill="#FFD54A"
+          points="110,18 117,36 136,36 120,47 127,66 110,55 93,66 100,47 84,36 103,36"/>
+      </g>
 
-        <!-- ornaments -->
-        <circle cx="85" cy="120" r="5" fill="#ff6b6b"/>
-        <circle cx="140" cy="118" r="5" fill="#74c0fc"/>
-        <circle cx="110" cy="160" r="5" fill="#ffd43b"/>
-        <circle cx="70" cy="185" r="5" fill="#b197fc"/>
-        <circle cx="150" cy="185" r="5" fill="#69db7c"/>
+      <polygon fill="#35C86B" points="110,55 35,125 185,125"/>
+      <polygon fill="#2FBF62" points="110,90 25,175 195,175"/>
+      <polygon fill="#2AB85C" points="110,125 15,215 205,215"/>
 
-        <!-- trunk -->
-        <rect x="96" y="210" width="28" height="24" rx="4" fill="#8d6e63"/>
-      </svg>
-    </div>
+      <circle cx="85" cy="120" r="5" fill="#ff6b6b"/>
+      <circle cx="140" cy="118" r="5" fill="#74c0fc"/>
+      <circle cx="110" cy="160" r="5" fill="#ffd43b"/>
+      <circle cx="70" cy="185" r="5" fill="#b197fc"/>
+      <circle cx="150" cy="185" r="5" fill="#69db7c"/>
+
+      <rect x="96" y="210" width="28" height="24" rx="4" fill="#8d6e63"/>
+    </svg>
 
     <div class="msg" id="msg">
       May this Christmas bring you peace, warmth, and quiet happiness.
     </div>
 
-    <div class="hint">(Tap anywhere to play music)</div>
+    <div class="controls">
+      <button class="play" onclick="playMusic()">▶ Play Music</button>
+      <button class="stop" onclick="stopMusic()">■ Stop</button>
+    </div>
+
+    <div class="tip" id="tip">
+      If you’re on iPhone, make sure your phone is not in Silent Mode.
+    </div>
   </div>
 
-  <!-- Music (browser may require first tap) -->
-  <audio id="music" loop preload="auto">
-    <source src="https://cdn.pixabay.com/audio/2022/12/20/audio_62a55b1a47.mp3" type="audio/mpeg">
+  <!-- Music: Wikimedia Commons MP3 -->
+  <audio id="music" loop preload="auto" playsinline>
+    <source src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Jingle_Bells_%28ISRC_USUAN1100187%29.mp3" type="audio/mpeg">
   </audio>
 
 <script>
-  // show message after 3s
+  // show message after 3 seconds
   setTimeout(() => {
     document.getElementById("msg").classList.add("show");
   }, 3000);
 
-  // play music after user tap (required by many browsers)
-  let played = false;
   function playMusic(){
-    if (played) return;
     const a = document.getElementById("music");
-    a.play().then(() => { played = true; }).catch(() => {});
+    a.play().then(()=>{
+      document.getElementById("tip").textContent = "Music is playing 🎶";
+    }).catch((e)=>{
+      document.getElementById("tip").textContent =
+        "Your browser blocked autoplay. Tap Play Music again, or try another browser.";
+    });
+  }
+
+  function stopMusic(){
+    const a = document.getElementById("music");
+    a.pause();
+    a.currentTime = 0;
+    document.getElementById("tip").textContent = "Music stopped.";
   }
 </script>
 </body>
